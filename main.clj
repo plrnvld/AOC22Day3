@@ -1,8 +1,7 @@
 (ns clojure.examples.aoc22day3
    (:gen-class))
 
-(require '[clojure.string :as str]
-         '[clojure.java.io :as jio]
+(require '[clojure.java.io :as jio]
          '[clojure.set :as set])
 
 (defn FirstHalf [line] 
@@ -16,13 +15,12 @@
 (defn packIntersection [line]
   (set/intersection (set (FirstHalf line)) (set (SecondHalf line))))
 
-(defn charScore [c]
-    (do 
-        (println c)
-        (let [intVal (int c)] 
-            (if (<= intVal (int \z))
-                (+ (- intVal (int \a)) 1)
-                (+ (- intVal (int \A)) 1)))))
+(defn charScore [c]     
+    (println c)
+    (let [intVal (int c)] 
+        (if (<= intVal (int \Z))
+            (+ (- intVal (int \A)) 27)
+            (+ (- intVal (int \a)) 1))))
 
 (defn packScore [line] 
     (let [intersectSet (packIntersection line)]
@@ -36,4 +34,8 @@
           (println (str "= " (packScore line)))
         )))
 
+(defn CalcLines []
+    (with-open [rdr (jio/reader "Input.txt")] (println (reduce + (map packScore (line-seq rdr))))))
+
 (ReadLines)
+(CalcLines)
